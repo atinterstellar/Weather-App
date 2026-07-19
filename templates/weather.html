@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Weather </title>
+    </head>
+    <body>
+        <div>
+            <h1>Weather Info</h1>
+            <h2>Location : {{response["address"]}}</h2>
+            <h3>Latitude : {{response["latitude"]}}</h3>
+            <h3>Longitute : {{response["longitude"]}}</h3>
+            <h3>Time Zone : {{response["timezone"]}} => utc + {{response["tzoffset"]}}</h3>
+            <h2>Temperature</h2>
+            <h3>Average Temp : {{tempc}}°c , {{response["days"][0]["temp"]}}°f</h3>
+            <h3>Max Temp : {{maxxc}}°c , {{response["days"][0]["tempmax"]}}°f</h3>
+            <h3>Min Temp : {{minnc}}°c , {{response["days"][0]["tempmin"]}}°f</h3>
+            <h3>Feels Like : {{feelc}}°c , {{response["days"][0]['feelslike']}}°f</h3>
+        </div>
+    </body>
+</html>
