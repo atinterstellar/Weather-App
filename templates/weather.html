@@ -16,5 +16,8 @@
             <h3>Min Temp : {{minnc}}°c , {{response["days"][0]["tempmin"]}}°f</h3>
             <h3>Feels Like : {{feelc}}°c , {{response["days"][0]['feelslike']}}°f</h3>
         </div>
+        <div>
+            <button><a href="{{url_for('wind')}}">Wind</a></button>
+        </div>
     </body>
 </html>
