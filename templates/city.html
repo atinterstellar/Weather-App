@@ -2,12 +2,15 @@
 <html lang="en">
     <head>
         <title> City - Weather </title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
-        <h1> Enter City to Get Weather Data</h1>
-       <form method="POST">
-            <input type="text" placeholder="city" name="city" >
-            <button type="submit">VIEW</button>
-       </form>
+        <div>
+            <h1> Enter City to Get Weather Data</h1>
+            <form method="POST">
+                <input type="text" placeholder="city" name="city" >
+                <button class="small-button" type="submit">VIEW</button>
+            </form>
+        </div>
     </body>
 </html>

@@ -2,8 +2,13 @@
 <html lang="en">
     <head>
         <title> Home - Weather</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
-       <button><a href="{{url_for('city')}}"> CITY</a></button>
+        <div>
+            <h1>SELECT THE CITY TO VIEW WEATHER FOR</h1>
+            <br></br>
+            <button><a href="{{url_for('city')}}"> CITY</a></button>
+        </div>
     </body>
 </html>
