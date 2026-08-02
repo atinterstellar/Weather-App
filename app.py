@@ -14,6 +14,9 @@ base = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/servic
 
 app = Flask(__name__)
 
+params = {"key": API_KEY, "contentType": "json"}
+
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -47,7 +50,6 @@ def wind():
         url = f"{base}/{name}/today"
     else:
         url = f"{base}/Delhi/today"
-    params = {"key": API_KEY, "contentType": "json"}
     response = requests.get(url, params=params, timeout=5).json()
 
     day = response["days"][0]
@@ -56,9 +58,27 @@ def wind():
     winddir   = day["winddir"]
 
     return render_template('wind.html', response=response, windspeed=windspeed, windgust=windgust, winddir=winddir)
-    
 
+@app.route('/rain')
+def rain() :
+    name = request.args.get("name")
+    if name:
+        url = f"{base}/{name}/today"
+    else:
+        url = f"{base}/Delhi/today"
+    response = requests.get(url, params=params, timeout=5).json()
 
+    day = response["days"][0]
+    cond = day["conditions"] + " : " + day["description"]
+    hours = day["hours"][0]
+    humidity = hours["humidity"]
+    dew = hours["dew"]
+    precip = hours["precip"]
+    precipprob = hours["precipprob"]
+    snow = hours["snow"]
+    snowdepth = hours["snowdepth"]
+
+    return render_template('rain.html' , response=response , cond = cond , hours = hours , humidity = humidity , dew = dew , precip = precip , precipprob = precipprob , snow = snow , snowdepth = snowdepth )
 
 if __name__ == '__main__' :
     app.run(host = '0.0.0.0' , port = 5103 , debug = True)

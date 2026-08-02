@@ -20,7 +20,7 @@ button{
     transform : scale(1.4);
 }
 button:hover {
-  transform: scale(1.7); 
+  transform: scale(1.5); 
   transition: transform 0.2s ease;
   background-color: #839b7d; 
 }
@@ -28,7 +28,7 @@ button:hover {
     transform: scale(1)
 }
 .small-button:hover{
-    transform: scale(2); 
+    transform: scale(1.5); 
     transition: transform 0.2s ease;
     background-color: #6e7f6a; 
 }
@@ -57,4 +57,9 @@ h3{
 h3:hover{
     transform:scale(1.3);
     transition: transform 0.2s ease;
+}
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
 }

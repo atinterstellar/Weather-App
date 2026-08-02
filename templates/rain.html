@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rain - Weather</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <div>
+            <h1>Rain Info</h1>
+            <h2>Description : {{ cond }}</h2>
+            <h2>humidity : {{humidity}}</h2>
+            <h2>Dew : {{dew}}</h2>
+            <h2>Rain : {{precip}}</h2>
+            <h2>Rain Probablity : {{precipprob}}</h2>
+            <h2>Snow : {{snow}}</h2>
+            <h2>Snow Depth : {{snowdepth}}</h2>
+        </div>
+    </body>
+</html>
