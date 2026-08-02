@@ -1,75 +1,93 @@
-# Weather App
+<div align="center">
 
-A small Flask app that looks up current weather for any city, built as a quick one-day project to get comfortable consuming an external API and wiring it up to a real (if bare-bones) web app instead of just a script.
+# 🌦️ Weather App
 
-Nothing fancy here — no database, no auth, no styling to speak of. It hits the [Visual Crossing](https://www.visualcrossing.com/weather-api) API, converts the numbers from Fahrenheit to Celsius, and renders them into a couple of templates. Good for practicing Flask routing and working with a real third-party API response instead of toy data.
+**A Flask web app that turns a raw weather API into a real, browsable tool.**
 
-## Features
+Built to sharpen two specific skills: working with a live third-party REST API, and structuring a multi-route Flask app the right way — not just scripting a single API call.
 
-- Look up today's weather for any city by name
-- Temperature (current, max, min, feels-like) converted from °F to °C
-- Separate wind page showing wind speed, gusts, and direction (defaults to Delhi if no city is given)
+[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-Micro--framework-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Visual Crossing](https://img.shields.io/badge/API-Visual%20Crossing-00A3E0)](https://www.visualcrossing.com/weather-api)
+[![Status](https://img.shields.io/badge/Status-Learning%20Project-yellow)]()
 
-## Tech Stack
+</div>
 
-- Python 3 / Flask
-- [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api) (JSON, `timeline` endpoint)
-- `requests` for HTTP calls
-- Jinja2 templates (`home.html`, `city.html`, `weather.html`, `wind.html`)
+---
 
-## Project Structure
+## Why this exists
+
+This was a deliberate, scoped exercise — not an attempt to ship a product. The goal was to get comfortable with two things I wanted to strengthen before going further:
+
+- **Consuming a real external API** — handling query params, API keys, and a live JSON response shape that I don't control (instead of practicing on data I made up myself).
+- **Flask fundamentals, done properly** — routing, GET/POST form handling, and passing backend data cleanly into Jinja templates across multiple pages, rather than one script that prints to a console.
+
+It's intentionally lean: no database, no auth, no styling framework. Depth over surface area — get the fundamentals solid first, then layer on complexity.
+
+## What it does
+
+| Route | Method | What it does |
+|---|---|---|
+| `/`, `/home` | GET | Landing page |
+| `/city` | GET/POST | Form to submit a city name |
+| `/weather` | GET | Current temp, high/low, and feels-like for `?name=<city>`, converted from °F to °C |
+| `/wind` | GET | Wind speed, gusts, and direction for `?name=<city>` (defaults to Delhi) |
+
+## Tech stack
+
+- **Backend:** Python 3, Flask
+- **API:** [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api) (`timeline` endpoint, JSON)
+- **HTTP:** `requests`
+- **Templates:** Jinja2 (`home.html`, `city.html`, `weather.html`, `wind.html`)
+
+## Project structure
 
 ```
 Weather-App/
 ├── app.py           # Flask routes: /, /city, /weather, /wind
-├── methods.py       # Unit conversion helpers (F→C, F→K)
-├── Response.py       # Standalone script for testing the API call directly (not used by app.py)
-├── api_key.txt      # Visual Crossing API key (plain text)
+├── methods.py        # Unit conversion helpers (°F→°C)
+├── Response.py        # Standalone script for testing the raw API call (not part of the app)
 ├── static/
 └── templates/
 ```
 
-## Setup
+## Getting started
 
-1. Install dependencies:
-   ```
-   pip install flask requests
-   ```
-2. Get a free API key from [Visual Crossing](https://www.visualcrossing.com/weather-api) and put it in `api_key.txt` in the project root (just the key, no quotes or extra whitespace).
-3. Run the app:
-   ```
-   python app.py
-   ```
-4. Visit `http://localhost:5103`
+```bash
+git clone https://github.com/atinterstellar/Weather-App.git
+cd Weather-App
+pip install -r requirements.txt
+```
 
-That's it — no database setup, no migrations, no config beyond the API key.
+Grab a free API key from [Visual Crossing](https://www.visualcrossing.com/weather-api), then set it as an environment variable rather than a tracked file:
 
-## Routes
+```bash
+export WEATHER_API_KEY=your_key_here
+```
 
-| Route | Method | Description |
-|---|---|---|
-| `/` , `/home` | GET | Landing page |
-| `/city` | GET/POST | Form to submit a city name |
-| `/weather` | GET | Shows today's temperature data for `?name=<city>` |
-| `/wind` | GET | Shows wind data for `?name=<city>` (defaults to Delhi) |
+Run it:
 
-## Known Issues / Things to Fix Before Sharing This Publicly
+```bash
+python app.py
+```
 
-Since this is sitting in a public repo, worth being upfront about the current state rather than pretending it's production-ready — it's a one-day learning project, not a shipped product, and it shows:
+Visit `http://localhost:5103`.
 
-- **The API key is committed to the repo** (`api_key.txt` is tracked in git). Anyone who clones this can read your key. It should be removed from version control, rotated, and loaded from an environment variable or a `.gitignore`'d file instead.
-- **`__pycache__` and `.DS_Store` are also committed.** Add a `.gitignore` (Python + macOS templates) so these stop showing up in every diff.
-- **No error handling.** If the city name is invalid or the API call fails, `response["days"][0]` will throw a raw `KeyError`/`IndexError` and the user gets a Flask stack trace instead of a friendly error.
-- **`debug=True` in `app.run()`.** Fine for local dev, but this must never run in production — it exposes the Werkzeug debugger, which allows arbitrary code execution if reachable externally.
-- **Global mutable state** (`place` and `response` as module-level globals in `app.py`) — this isn't thread-safe and will misbehave under concurrent requests. Pass data through Flask's `request`/`session` instead.
-- **`Response.py` looks like a leftover scratch/test file** rather than part of the app (it duplicates the API-key-loading logic and just prints a raw response). Worth moving to a `scripts/` or `tests/` folder, or removing, so it's clear it's not part of the request path.
-- **No caching**, despite this project having been scoped as an exercise in SQLite-based response caching with TTL invalidation — the current code hits the live API on every request. If that's still the plan, it's not in this version of the repo yet.
-- **No `requirements.txt`** — setup currently relies on the reader guessing `flask` and `requests` are the only dependencies.
+## Roadmap
 
-## What's Next
+This is a living project. Next up:
 
-If this gets picked back up, the natural next steps are: fix the API key exposure, add a `.gitignore`, wrap the weather lookup in a try/except with a proper error page, and — per the original plan for this exercise — add a SQLite caching layer with TTL invalidation so repeat lookups for the same city don't hit the live API every time.
+- 🗄️ **SQLite caching layer with TTL invalidation** — the original point of this exercise; avoid re-hitting the live API for repeat city lookups
+- 🛡️ **Error handling** — graceful responses for invalid cities or API failures instead of raw stack traces
+- ✅ **Input validation** on the city form
+- 📦 **`requirements.txt`** and a proper local dev setup
 
-## License
+## Limitations
 
-Not specified.
+No database, no auth, minimal error handling, no automated tests — this is a fundamentals project, not a production app. Treat it accordingly.
+
+---
+
+<div align="center">
+<sub>Built by <a href="https://github.com/atinterstellar">@atinterstellar</a> — first-year Chemical Engineering @ IIT Delhi, learning to build.</sub>
+</div>
