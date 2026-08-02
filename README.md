@@ -32,6 +32,7 @@ It's intentionally lean: no database, no auth, no styling framework. Depth over 
 | `/city` | GET/POST | Form to submit a city name |
 | `/weather` | GET | Current temp, high/low, and feels-like for `?name=<city>`, converted from °F to °C |
 | `/wind` | GET | Wind speed, gusts, and direction for `?name=<city>` (defaults to Delhi) |
+| `/rain` | GET | Condition, Rain, Rain Probablity, Snow, Snow Depth, Humidity, Dew | 
 
 ## Tech stack
 
